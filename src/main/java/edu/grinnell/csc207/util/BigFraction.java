@@ -3,19 +3,6 @@ package edu.grinnell.csc207.util;
 import java.math.BigInteger;
 
 public class BigFraction {
-   // +------------------+---------------------------------------------
-  // | Design Decisions |
-  // +------------------+
-
-  /*
-   * (1) Denominators are always positive. Therefore, negative fractions
-   * are represented with a negative numerator. Similarly, if a fraction
-   * has a negative numerator, it is negative.
-   *
-   * (2) Fractions are not necessarily stored in simplified form. To
-   * obtain a fraction in simplified form, one must call the `simplify`
-   * method.
-   */
 
   // +-----------+---------------------------------------------------
   // | Constants |
@@ -44,7 +31,6 @@ public class BigFraction {
   /**
    * Build a new fraction with numerator num and denominator denom.
    *
-   * Warning! Not yet stable.
    *
    * @param numerator
    *   The numerator of the fraction.
@@ -59,7 +45,6 @@ public class BigFraction {
   /**
    * Build a new fraction with numerator num and denominator denom.
    *
-   * Warning! Not yet stable.
    *
    * @param numerator
    *   The numerator of the fraction.
@@ -74,7 +59,6 @@ public class BigFraction {
   /**
    * Build a new fraction by parsing a string.
    *
-   * Warning! Not yet implemented.
    *
    * @param str
    *   The fraction in string form
@@ -122,7 +106,6 @@ public class BigFraction {
     // The denominator of the result is the product of this object's
     // denominator and addend's denominator
     resultDenominator = this.denom.multiply(addend.denom);
-    // The numerator is more complicated
     resultNumerator =
       (this.num.multiply(addend.denom)).add(addend.num.multiply(this.denom));
 
@@ -143,9 +126,8 @@ public class BigFraction {
     BigInteger resultDenominator;
 
     // The denominator of the result is the product of this object's
-    // denominator and addend's denominator
+    // denominator and subend's denominator
     resultDenominator = this.denom.multiply(subend.denom);
-    // The numerator is more complicated
     resultNumerator =
       (this.num.multiply(subend.denom)).subtract(subend.num.multiply(this.denom));
     
@@ -167,9 +149,8 @@ public class BigFraction {
     BigInteger resultDenominator;
 
     // The denominator of the result is the product of this object's
-    // denominator and addend's denominator
+    // denominator and divend's denominator
     resultDenominator = this.denom.multiply(devend.num);
-    // The numerator is more complicated
     resultNumerator =
       (this.num.multiply(devend.denom)).multiply(devend.num.multiply(this.num));
 
@@ -190,9 +171,8 @@ public class BigFraction {
     BigInteger resultDenominator;
 
     // The denominator of the result is the product of this object's
-    // denominator and addend's denominator
+    // denominator and multend's denominator
     resultDenominator = this.denom.multiply(multend.denom);
-    // The numerator is more complicated
     resultNumerator =
       (this.num.multiply(multend.denom)).multiply(multend.num.multiply(this.denom));
 
