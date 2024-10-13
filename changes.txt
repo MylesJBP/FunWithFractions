@@ -1,0 +1,21 @@
+# Changes Checklist for MP2 Redo
+Myles Bohrer-Purnell
+CSC-207 2024Fa
+Samuel Rebelsky
+--- 
+
+The comments for my initial submission of MP1 were as follows:
+Close! Just make sure to include your name in your headers.
+
+I fixed this by adding a header comment to each file with my name and other
+information.
+
+Other issues that I found with my code were:
+Failed some tests:
+I fixed this by adding fraction-simplification code to my constructors in my 
+BigFraction class. I also added a condition in toString that only returns the
+numerator if the denominator of the fraction is 1.
+
+Checkstyle errors:
+I had a ton of checkstyle errors, so I fixed all of the spacing between elements,
+added javadoc comments, and implemented new constants.

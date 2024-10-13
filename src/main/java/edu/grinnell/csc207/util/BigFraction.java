@@ -2,6 +2,13 @@ package edu.grinnell.csc207.util;
 
 import java.math.BigInteger;
 
+/**
+* @author Myles Bohrer-Purnell.
+* Course: CSC207 - Object Oriented Programming.
+* Mini-Project 2.
+* Instructor: Sam Rebelsky.
+* 9/20/2024.
+*/
 public class BigFraction {
 
   // +-----------+---------------------------------------------------
@@ -14,15 +21,21 @@ public class BigFraction {
   /** The default denominator when creating fractions. */
   private static final BigInteger DEFAULT_DENOMINATOR = BigInteger.valueOf(1);
 
+  /** The number 10 for creating numbertor/denominators. */
+  private static final int TEN = 10;
+
+  /** The number 9 for creating numbertor/denominators. */
+  private static final int NINE = 9;
+
   // +--------+-------------------------------------------------------
   // | Fields |
   // +--------+
 
   /** The numerator of the fraction. Can be positive, zero or negative. */
-  BigInteger num;
+  private BigInteger num;
 
   /** The denominator of the fraction. Must be non-negative. */
-  BigInteger denom;
+  private BigInteger denom;
 
   // +--------------+-------------------------------------------------
   // | Constructors |
@@ -38,8 +51,19 @@ public class BigFraction {
    *   The denominator of the fraction.
    */
   public BigFraction(BigInteger numerator, BigInteger denominator) {
-    this.num = numerator;
-    this.denom = denominator;
+    for (int i = TEN; i > 1; i--) {
+      BigInteger val = BigInteger.valueOf(i);
+      if (numerator.remainder(val).equals(BigInteger.ZERO)
+          && denominator.remainder(val).equals(BigInteger.ZERO)) {
+        this.num = numerator.divide(val);
+        this.denom = denominator.divide(val);
+        break;
+      } else if (i == 2) {
+        this.num = numerator;
+        this.denom = denominator;
+        break;
+      } // else
+    } // for
   } // BigFraction(BigInteger, BigInteger)
 
   /**
@@ -52,8 +76,21 @@ public class BigFraction {
    *   The denominator of the fraction.
    */
   public BigFraction(int numerator, int denominator) {
-    this.num = BigInteger.valueOf(numerator);
-    this.denom = BigInteger.valueOf(denominator);
+    BigInteger numerate = BigInteger.valueOf(numerator);
+    BigInteger denominate = BigInteger.valueOf(denominator);
+    for (int i = TEN; i > 1; i--) {
+      BigInteger val = BigInteger.valueOf(i);
+      if ((numerate.remainder(val)).equals(BigInteger.ZERO)
+          && (denominate.remainder(val)).equals(BigInteger.ZERO)) {
+        this.num = numerate.divide(val);
+        this.denom = denominate.divide(val);
+        break;
+      } else if (i == 2) {
+        this.num = numerate;
+        this.denom = denominate;
+        break;
+      } // else
+    } // for
   } // BigFraction(int, int)
 
   /**
@@ -67,15 +104,26 @@ public class BigFraction {
     String[] bigStr = str.split("/");
     BigInteger numerate = BigInteger.ZERO;
     BigInteger denominate = BigInteger.ONE;
-    if(bigStr.length == 1){
+    if (bigStr.length == 1) {
       numerate = new BigInteger(bigStr[0]);
       denominate = BigInteger.ONE;
     } else {
       numerate = new BigInteger(bigStr[0]);
       denominate = new BigInteger(bigStr[1]);
-    }
-    this.num = numerate;
-    this.denom = denominate;
+    } // else
+    for (int i = TEN; i > 1; i--) {
+      BigInteger val = BigInteger.valueOf(i);
+      if (numerate.remainder(val).equals(BigInteger.ZERO)
+          && denominate.remainder(val).equals(BigInteger.ZERO)) {
+        this.num = numerate.divide(val);
+        this.denom = denominate.divide(val);
+        break;
+      } else if (i == 2) {
+        this.num = numerate;
+        this.denom = denominate;
+        break;
+      } // else
+    } // for
   } // BigFraction
 
   // +---------+------------------------------------------------------
@@ -109,18 +157,27 @@ public class BigFraction {
     resultNumerator =
       (this.num.multiply(addend.denom)).add(addend.num.multiply(this.denom));
 
-    for(int i = 9; i > 1; i--){
+    for (int i = TEN; i > 1; i--) {
       BigInteger val = BigInteger.valueOf(i);
-      if(resultNumerator.remainder(val).equals(BigInteger.ZERO) && resultDenominator.remainder(val).equals(BigInteger.ZERO)){
+      if (resultNumerator.remainder(val).equals(BigInteger.ZERO)
+          && resultDenominator.remainder(val).equals(BigInteger.ZERO)) {
         resultNumerator = resultNumerator.divide(val);
         resultDenominator = resultDenominator.divide(val);
         break;
-      }
-    }
+      } // if
+    } // for
     // Return the computed value
     return new BigFraction(resultNumerator, resultDenominator);
   } // add(BigFraction)
 
+  /**
+   * subtract another faction to this fraction.
+   *
+   * @param subend
+   *   The fraction to subtract.
+   *
+   * @return the result of the subtraction.
+   */
   public BigFraction subtract(BigFraction subend) {
     BigInteger resultNumerator;
     BigInteger resultDenominator;
@@ -130,42 +187,58 @@ public class BigFraction {
     resultDenominator = this.denom.multiply(subend.denom);
     resultNumerator =
       (this.num.multiply(subend.denom)).subtract(subend.num.multiply(this.denom));
-    
-    for(int i = 10; i > 1; i--){
+    for (int i = TEN; i > 1; i--) {
       BigInteger val = BigInteger.valueOf(i);
-      if(resultNumerator.remainder(val).equals(BigInteger.ZERO) && resultDenominator.remainder(val).equals(BigInteger.ZERO)) {
+      if (resultNumerator.remainder(val).equals(BigInteger.ZERO)
+          && resultDenominator.remainder(val).equals(BigInteger.ZERO)) {
         resultNumerator = resultNumerator.divide(val);
         resultDenominator = resultDenominator.divide(val);
         break;
-      }
-    } 
-    
+      } // if
+    } // for
     // Return the computed value
     return new BigFraction(resultNumerator, resultDenominator);
   } // add(BigFraction)
 
-  public BigFraction divide(BigFraction devend) {
+  /**
+   * divide another faction to this fraction.
+   *
+   * @param divend
+   *   The fraction to divide.
+   *
+   * @return the result of the division.
+   */
+  public BigFraction divide(BigFraction divend) {
     BigInteger resultNumerator;
     BigInteger resultDenominator;
 
     // The denominator of the result is the product of this object's
     // denominator and divend's denominator
-    resultDenominator = this.denom.multiply(devend.num);
+    resultDenominator = this.denom.multiply(divend.num);
     resultNumerator =
-      (this.num.multiply(devend.denom)).multiply(devend.num.multiply(this.num));
+      (this.num.multiply(divend.denom));
 
-    for(int i = 10; i > 1; i--){
+    for (int i = TEN; i > 1; i--) {
       BigInteger val = BigInteger.valueOf(i);
-      if(resultNumerator.remainder(val).equals(BigInteger.ZERO) && resultDenominator.remainder(val).equals(BigInteger.ZERO)){
+      if (resultNumerator.remainder(val).equals(BigInteger.ZERO)
+          && resultDenominator.remainder(val).equals(BigInteger.ZERO)) {
         resultNumerator = resultNumerator.divide(val);
         resultDenominator = resultDenominator.divide(val);
         break;
-      }
-    }
+      } // if
+    } // for
     // Return the computed value
     return new BigFraction(resultNumerator, resultDenominator);
   } // add(BigFraction)
 
+   /**
+   * Multiply another faction to this fraction.
+   *
+   * @param multend
+   *   The fraction to multiply.
+   *
+   * @return the result of the multiplication.
+   */
   public BigFraction multiply(BigFraction multend) {
     BigInteger resultNumerator;
     BigInteger resultDenominator;
@@ -174,16 +247,17 @@ public class BigFraction {
     // denominator and multend's denominator
     resultDenominator = this.denom.multiply(multend.denom);
     resultNumerator =
-      (this.num.multiply(multend.denom)).multiply(multend.num.multiply(this.denom));
+      (this.num.multiply(multend.num));
 
-    for(int i = 10; i > 1; i--){
+    for (int i = TEN; i > 1; i--) {
       BigInteger val = BigInteger.valueOf(i);
-      if(resultNumerator.remainder(val).equals(BigInteger.ZERO) && resultDenominator.remainder(val).equals(BigInteger.ZERO)){
+      if (resultNumerator.remainder(val).equals(BigInteger.ZERO)
+          && resultDenominator.remainder(val).equals(BigInteger.ZERO)) {
         resultNumerator = resultNumerator.divide(val);
         resultDenominator = resultDenominator.divide(val);
         break;
-      }
-    }
+      } // if
+    } // for
     // Return the computed value
     return new BigFraction(resultNumerator, resultDenominator);
   } // add(BigFraction)
@@ -217,9 +291,13 @@ public class BigFraction {
       return "0";
     } // if it's zero
 
+    if (this.denom.equals(BigInteger.ONE)) {
+      return "" + this.num;
+    } // if
+
     // Lump together the string represention of the numerator,
     // a slash, and the string representation of the denominator
     // return this.num.toString().concat("/").concat(this.denom.toString());
     return this.num + "/" + this.denom;
   } // toString()
-}
+} // BigFraction
